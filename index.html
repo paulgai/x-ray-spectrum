@@ -246,7 +246,7 @@
               ((kb * 0.1 * mas * (kvp - 67.2)) / 67.2) *
               Math.exp(-a / 67.2) *
               Math.exp(-((x - 67.2) ** 2) / (2 * s * s));
-            y = base + kaTerm + kbTerm;
+            y = base + kaTerm + kbTerm + 1;
           }
           xs.push(x);
           ys.push(y);
@@ -287,7 +287,14 @@
                 title: { display: true, text: "Ενέργεια (kV)" },
               },
               y: {
-                beginAtZero: true, // ξεκινά από το 0, αλλά δεν ορίζει άνω όριο
+                type: "logarithmic", // λογαριθμική κλίμακα
+                min: 1, // ≈“0” (πρέπει να είναι >0)
+                max: 50, // σταθερό άνω όριο
+                ticks: {
+                  callback: (value) => value, // π.χ. δείξε «1, 2, 5, 10, 20, 50»
+                  // αν θες να εμφανίζεται "0" στο 1:
+                  // callback: value => value === 1 ? '0' : value,
+                },
                 title: { display: true, text: "Ένταση (αυθαίρετες μονάδες)" },
               },
             },
